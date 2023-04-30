@@ -1,0 +1,8 @@
+Ülesanne
+
+Tuleb leida Optional<Employee> läbi id kasutades PathVariable (url:employee/{id})
+Tuleb tagastada list, kus sees on kõik employeed (url:/employees)
+Employeed saab andmebaasi salvestada selleks tuleb kasutada @PostMappingut ja tuleb vaadata, et sellise emailiga employeed poleks juba andmebaasis. Kui tegevus oli edukas tuleb tagastada Employee added to database ja muul juhul tuleb tagastada This email is already in database or something went wrong!(url:employee/add).
+Employeed saab andmebaasist kustudada id kaudu. Kasutada tuleb DeleteMapping. Kui tegevus oli edukas tuleb tagastada Employee deleted ja muul juhul No matching ID found in database! (url:employee/{id}).
+Employee andmeid saab uuedada. Tuleb kasutada @PutMapping. Employee andmeid uuendades tuleb kaasa anda eesnimi, perenimi, email ja company. NB! kui email jääb samaks siis see ei ole viga, aga kui muudatakse emaili siis pead kontrollima, kas selline on juba olemas, kui jah siis tuleb tagastada Cannot overwrite employee data! ning muul juhul Employee data overwritten.. Kasuta @PathVariable ja @RequestBody (url:emaployee/{id})
+Tuleb tagatada list kõikidest employeedest, kes töötav antud companys. Selleks kasuta @RequestParam. ( url: employee?)
