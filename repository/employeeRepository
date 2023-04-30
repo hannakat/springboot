@@ -1,0 +1,29 @@
+package ee.taltech.iti0202.springboot.repository;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import java.util.List;
+import java.util.Optional;
+
+public interface EmployeeRepository extends JpaRepository<Employee, Long> {
+    /**
+     *
+     * @param email to find
+     * @return employee by email
+     */
+    Optional<Employee> findByEmailIgnoreCase(String email);
+
+    /**
+     *
+     * @param email to check
+     * @return boolean
+     */
+    boolean existsByEmail(String email);
+
+    /**
+     *
+     * @param company whose employees are requested
+     * @return list of employees
+     */
+    List<Employee> findAllByCompany(String company);
+}
