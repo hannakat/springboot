@@ -1,0 +1,82 @@
+package ee.taltech.iti0202.springboot.service;
+
+import ee.taltech.iti0202.springboot.model.EmployeeRequest;
+import ee.taltech.iti0202.springboot.repository.Employee;
+import ee.taltech.iti0202.springboot.repository.EmployeeRepository;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
+
+
+@RequiredArgsConstructor // loob konstuktori ise parameetriga EmployeeRepository 
+@Service
+public class EmployeeService {
+
+    private final EmployeeRepository employeeRepository;
+
+    public List<Employee> findAllEmployees() {
+        return employeeRepository.findAll();
+    }
+
+    public Optional<Employee> getById(Long id) {
+        return employeeRepository.findById(id);
+    }
+
+    public String save(EmployeeRequest employeeRequest) {
+        if (employeeRepository.existsByEmail(employeeRequest.getEmail())) {
+            return "This email is already in database or something went wrong!";
+        }
+        employeeRepository.save(getEmployee(employeeRequest));
+        return "Employee added to database";
+    }
+
+    private Employee getEmployee(EmployeeRequest employeeRequest) {
+        Employee employee = new Employee();
+        employee.setEmail(employeeRequest.getEmail());
+        employee.setCompany(employeeRequest.getCompany());
+        employee.setFirstName(employeeRequest.getFirstName());
+        employee.setLastName(employeeRequest.getLastName());
+        return employee;
+    }
+
+    public String delete(Long id) {
+        Optional<Employee> employee = employeeRepository.findById(id);
+        if (employee.isPresent()) {
+            employeeRepository.delete(employee.get());
+            return "Employee deleted";
+        }
+        return "No matching ID found in database!";
+    }
+
+    public String update(Long id, EmployeeRequest employeeRequest) {
+        Optional<Employee> employee = employeeRepository.findById(id);
+        if (employee.isPresent()) {
+            if (employeeRequest.getEmail() != null) {
+                if (!Objects.equals(employeeRequest.getEmail(), employee.get().getEmail())
+                        && employeeRepository.existsByEmail(employeeRequest.getEmail())) {
+                    return "Cannot overwrite employee data!";
+                }
+                employee.get().setEmail(employeeRequest.getEmail());
+            }
+            if (employeeRequest.getFirstName() != null) {
+                employee.get().setFirstName(employeeRequest.getFirstName());
+            }
+            if (employeeRequest.getLastName() != null) {
+                employee.get().setLastName(employeeRequest.getLastName());
+            }
+            if (employeeRequest.getCompany() != null) {
+                employee.get().setCompany(employeeRequest.getCompany());
+            }
+            employeeRepository.save(employee.get());
+            return "Employee data overwritten.";
+        }
+        return "Cannot overwrite employee data!";
+    }
+
+    public List<Employee> findEmployeesByCompany(String company) {
+        return employeeRepository.findAllByCompany(company);
+    }
+}
