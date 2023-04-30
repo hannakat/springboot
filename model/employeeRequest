@@ -1,0 +1,52 @@
+package ee.taltech.iti0202.springboot.model;
+
+public class EmployeeRequest {
+    /**
+     * employee's first name
+     */
+    private String firstName;
+    /**
+     * employee's last name
+     */
+    private String lastName;
+    /**
+     * employee's email
+     */
+    private String email;
+    /**
+     * employee's company
+     */
+    private String company;
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setCompany(String company) {
+        this.company = company;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public String getCompany() {
+        return company;
+    }
+}
